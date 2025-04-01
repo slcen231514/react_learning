@@ -5,11 +5,12 @@ import Layout from "@/page/Layout";
 import Board from "../page/Board";
 import About from "@/page/About";
 import NotFound from "../page/NotFound";
+import { AuthRoute } from '@/components/AuthRoute'
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Layout />,
+        element:  <AuthRoute><Layout /></AuthRoute>,
         children: [
             // 设置为默认二级路由
             {
