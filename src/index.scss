@@ -1,10 +1,9 @@
-.foo {
-    color: blue;
-    font-size: 100px;
+html,
+body {
+  margin: 0;
+  height: 100%;
 }
 
-body {
-    div {
-        color: red
-    }
+#root {
+  height: 100%;
 }

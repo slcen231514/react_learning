@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import './index.scss'
 import App from './App';
+import 'normalize.css'
 
 // 1. 导入路由router
 import router from './router';

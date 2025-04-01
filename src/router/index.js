@@ -1,10 +1,10 @@
-import Login from "../page/Login";
+import Login from "@/page/Login";
 import Article from "@/page/Article";
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "@/page/Layout";
-import Board from "../page/Board";
-import About from "@/page/About";
-import NotFound from "../page/NotFound";
+import Home from "@/page/Home";
+import Publish from "@/page/Publish";
+import NotFound from "@/page/NotFound";
 import { AuthRoute } from '@/components/AuthRoute'
 
 const router = createBrowserRouter([
@@ -15,21 +15,21 @@ const router = createBrowserRouter([
             // 设置为默认二级路由
             {
                 index: true, 
-                element: <Board />
+                element: <Home />
             },
             {
-                path: 'About',
-                element: <About />
-            }
+                path: '/publish',
+                element: <Publish />
+            },
+            {
+                path: '/article',
+                element: <Article />
+            },
         ]
     },
     {
         path: '/login',
         element: <Login />
-    },
-    {
-        path: '/article/:id/:name',
-        element: <Article />
     },
     {
         path: '*',
