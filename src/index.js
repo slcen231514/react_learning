@@ -6,13 +6,17 @@ import App from './App';
 
 // 1. 导入路由router
 import router from './router';
+import { Provider } from 'react-redux';
+import store from './store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        {/* <App /> */}
-        <RouterProvider router={router}></RouterProvider>
+        <Provider store={store}>
+            {/* <App /> */}
+            <RouterProvider router={router}></RouterProvider>
+        </Provider>
     </React.StrictMode>
-); 
+)
 
