@@ -15,4 +15,4 @@ function AuthRoute({ children }) {
     }
 }
 
-export { AuthRoute }
+export { AuthRoute } 
