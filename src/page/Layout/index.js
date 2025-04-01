@@ -1,13 +1,16 @@
-import { Link, Outlet } from "react-router-dom"
+// 测试token是否成功注入
+
+import { request } from "@/utils"
+import { useEffect } from "react"
+
 
 const Layout = () => {
+    useEffect(() => {
+        request.get('/user/profile')
+    }, [])
     return (
         <div>
-            我是一级路由Layout组件
-            <Link to="/">面板</Link>
-            <Link to="/About">关于</Link>
-            {/* 配置二级路由出口 */}
-            <Outlet />
+            this is Layout
         </div>
     )
 }
