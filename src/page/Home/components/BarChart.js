@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 
 // 1.把功能代码都放到组件中
 // 2.可变部分抽象成prop参数
-const BarChart = ({ title }) => {
+const BarChart = ({ title, xData }) => {
     const chartRef = useRef(null)
     useEffect(() => {
         // 保证dom可用 才进行图表渲染
@@ -22,7 +22,7 @@ const BarChart = ({ title }) => {
             },
             xAxis: {
                 type: 'category',
-                data: ['Vue', 'React', 'Angular']
+                data: xData
             },
             yAxis: {
                 type: 'value'
