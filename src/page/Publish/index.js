@@ -7,7 +7,8 @@ import {
     Input,
     Upload,
     Space,
-    Select
+    Select,
+    message
   } from 'antd'
   import { PlusOutlined } from '@ant-design/icons'
   import { Link } from 'react-router-dom'
@@ -37,14 +38,19 @@ import { createArticleAPI, getChannelAPI } from '@/apis/article';
 
     // 提交表单
     const onFinish = (formValue) => {
+      // 校验封面类型imageType是否和实际图片列表imageList数量相等
+      if(imageList.length !== imageType) {
+        console.log('图片数量不匹配')
+        return message.warning('图片数量不匹配')
+      }
       const { title, content, channel_id } = formValue
       // 1.按照接口文档格式处理表单数据
       const reqData = {
         title,
         content,
         cover: {
-          type: 0,
-          image: []
+          type: imageType,
+          images: imageList.map(item => item.response.data.url) // 上传图片列表
         },
         channel_id
       }
@@ -55,7 +61,7 @@ import { createArticleAPI, getChannelAPI } from '@/apis/article';
     // 上传回调
     const [imageList, setImageList] = useState([])
     const onChange = (value) => {
-      setImageList(value.firstList)
+      setImageList(value.fileList)
     }
 
     // 切换图片封面类型
