@@ -13,9 +13,11 @@ import {
   import { Link } from 'react-router-dom'
   import './index.scss'
 
-  import { Editor } from '@tinymce/tinymce-react';
+  import ReactQuill from 'react-quill'
+  import 'react-quill/dist/quill.snow.css'
+
 import { useEffect, useState } from 'react';
-import { getChannelAPI } from '@/apis/article';
+import { createArticleAPI, getChannelAPI } from '@/apis/article';
   
   const { Option } = Select
   
@@ -31,7 +33,24 @@ import { getChannelAPI } from '@/apis/article';
       }
       // 2.调用函数
       getChannelList()
-    })
+    }, [])
+
+    // 提交表单
+    const onFinish = (formValue) => {
+      const { title, content, channel_id } = formValue
+      // 1.按照接口文档格式处理表单数据
+      const reqData = {
+        title,
+        content,
+        cover: {
+          type: 0,
+          image: []
+        },
+        channel_id
+      }
+      // 2.调用接口提交
+      createArticleAPI(reqData)
+    }
     return (
       <div className="publish">
         <Card
@@ -47,6 +66,7 @@ import { getChannelAPI } from '@/apis/article';
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ type: 1 }}
+            onFinish={onFinish}
           >
             <Form.Item
               label="标题"
@@ -61,6 +81,7 @@ import { getChannelAPI } from '@/apis/article';
               rules={[{ required: true, message: '请选择文章频道' }]}
             >
               <Select placeholder="请选择文章频道" style={{ width: 400 }}>
+                {/*value属性用户选中后会自动收集起来作为接口的提交字段*/}
                 {channelList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)} 
               </Select>
             </Form.Item>
@@ -70,10 +91,10 @@ import { getChannelAPI } from '@/apis/article';
               rules={[{ required: true, message: '请输入文章内容' }]}
             >
                 {/*富文本编辑*/}
-                <Editor
-                  apiKey='wd74gedfad4i0arj2who5pmif0me1qvf59qjxhgrineq8hqx'
-                  
-                  initialValue="Welcome to TinyMCE!"
+                <ReactQuill
+                  className="publish-quill"
+                  theme="snow"
+                  placeholder="请输入文章内容"
                 />
             </Form.Item>
   
