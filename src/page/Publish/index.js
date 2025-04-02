@@ -14,10 +14,24 @@ import {
   import './index.scss'
 
   import { Editor } from '@tinymce/tinymce-react';
+import { useEffect, useState } from 'react';
+import { getChannelAPI } from '@/apis/article';
   
   const { Option } = Select
   
   const Publish = () => {
+    // 获取频道列表
+    const [channelList ,setChannelList] = useState([])
+
+    useEffect(() => {
+      // 1.封装函数 在函数体内调用接口
+      const getChannelList = async() => {
+        const res = await getChannelAPI()
+        setChannelList(res.data.channels)
+      }
+      // 2.调用函数
+      getChannelList()
+    })
     return (
       <div className="publish">
         <Card
@@ -47,7 +61,7 @@ import {
               rules={[{ required: true, message: '请选择文章频道' }]}
             >
               <Select placeholder="请选择文章频道" style={{ width: 400 }}>
-                <Option value={0}>推荐</Option>
+                {channelList.map(item => <Option key={item.id} value={item.id}>{item.name}</Option>)} 
               </Select>
             </Form.Item>
             <Form.Item
