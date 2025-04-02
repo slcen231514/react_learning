@@ -12,6 +12,8 @@ import {
   import { PlusOutlined } from '@ant-design/icons'
   import { Link } from 'react-router-dom'
   import './index.scss'
+
+  import { Editor } from '@tinymce/tinymce-react';
   
   const { Option } = Select
   
@@ -52,7 +54,14 @@ import {
               label="内容"
               name="content"
               rules={[{ required: true, message: '请输入文章内容' }]}
-            ></Form.Item>
+            >
+                {/*富文本编辑*/}
+                <Editor
+                  apiKey='wd74gedfad4i0arj2who5pmif0me1qvf59qjxhgrineq8hqx'
+                  
+                  initialValue="Welcome to TinyMCE!"
+                />
+            </Form.Item>
   
             <Form.Item wrapperCol={{ offset: 4 }}>
               <Space>

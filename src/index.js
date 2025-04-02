@@ -12,11 +12,9 @@ import store from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            {/* <App /> */}
-            <RouterProvider router={router}></RouterProvider>
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+        {/* <App /> */}
+        <RouterProvider router={router}></RouterProvider>
+    </Provider>
 )
 
