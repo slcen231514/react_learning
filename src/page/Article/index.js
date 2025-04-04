@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select } from 'antd'
+import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
 // 引入汉化包 时间选择器显示中文
 import locale from 'antd/es/date-picker/locale/zh_CN'
 
@@ -9,7 +9,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
 import { useChannel } from '@/hooks/useChannel'
 import { useEffect, useState } from 'react'
-import { getArticleListAPI } from '@/apis/article'
+import { delArticleAPI, getArticleListAPI } from '@/apis/article'
 
 
 const { Option } = Select
@@ -67,32 +67,26 @@ const Article = () => {
                 return (
                     <Space size="middle">
                         <Button type="primary" shape="circle" icon={<EditOutlined />} />
-                        <Button
-                            type="primary"
-                            danger
-                            shape="circle"
-                            icon={<DeleteOutlined />}
-                        />
+                        <Popconfirm
+                            title="删除文章"
+                            description="确认要删除当前文章嘛？"
+                            onConfirm={() => onConfirm(data)}
+                            // onCancel={cancel}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button
+                                type="primary"
+                                danger
+                                shape="circle"
+                                icon={<DeleteOutlined />}
+                            />
+                        </Popconfirm>
                     </Space>
                 )
             }
         }
     ]
-    // 准备表格body数据
-    const data = [
-    {
-        id: '8218',
-        comment_count: 0,
-        cover: {
-            images: [],
-        },
-        like_count: 0,
-        pubdate: '2019-03-11 09:00:00',
-        read_count: 2,
-        status: 2,
-        title: 'wkwebview离线化加载h5资源解决方案'
-    }
-  ]
 
   // 筛选功能
   // 1.准备参数
@@ -137,6 +131,14 @@ const Article = () => {
     setReqData({
         ...reqData,
         page
+    })
+  }
+
+  // 删除文章
+  const onConfirm = async (data) => {
+    await delArticleAPI(data.id)
+    setReqData({
+        ...reqData
     })
   }
 
