@@ -39,10 +39,7 @@ import { createArticleAPI, getChannelAPI } from '@/apis/article';
     // 提交表单
     const onFinish = (formValue) => {
       // 校验封面类型imageType是否和实际图片列表imageList数量相等
-      if(imageList.length !== imageType) {
-        console.log('图片数量不匹配')
-        return message.warning('图片数量不匹配')
-      }
+      if(imageList.length !== imageType) return message.warning('图片数量不匹配')
       const { title, content, channel_id } = formValue
       // 1.按照接口文档格式处理表单数据
       const reqData = {
