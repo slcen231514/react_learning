@@ -15,7 +15,7 @@ export function getChannelAPI() {
 
 export function createArticleAPI(data) {
     return request({
-        url: '/mp/articles?draft=false',
+        url: '/mp/articles',
         method: 'POST',
         data
     })
