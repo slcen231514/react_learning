@@ -18,7 +18,7 @@ import {
   import 'react-quill/dist/quill.snow.css'
 
 import { useEffect, useState } from 'react';
-import { createArticleAPI, getArticleById} from '@/apis/article';
+import { createArticleAPI, getArticleById, updateArticleAPI} from '@/apis/article';
 import { useChannel } from '@/hooks/useChannel'
   
   const { Option } = Select
@@ -38,12 +38,25 @@ import { useChannel } from '@/hooks/useChannel'
         content,
         cover: {
           type: imageType,
-          images: imageList.map(item => item.response.data.url) // 上传图片列表
+          // 这里的url处理逻辑只是新增时的逻辑
+          images: imageList.map(item => {
+            if(item.response) {
+              return item.response.data.url
+            } else {
+              return item.url
+            }
+          }) // 上传图片列表
         },
         channel_id
       }
       // 2.调用接口提交
-      createArticleAPI(reqData)
+      // 处理调用不同接口 新增 - 新增接口 编辑状态 - 编辑接口
+      if(articleId) {
+        // 更新接口
+        updateArticleAPI({...reqData, id: articleId})
+      } else {
+        createArticleAPI(reqData)
+      }
     }
 
     // 上传回调
