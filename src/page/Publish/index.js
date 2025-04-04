@@ -71,8 +71,7 @@ import { useChannel } from '@/hooks/useChannel'
       }
       getArticleDetail()
       // 2.调用实例方法 完成回填
-      
-    }, [articleId], form)
+    }, [articleId, form])
 
     return (
       <div className="publish">
