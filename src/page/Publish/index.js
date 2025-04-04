@@ -67,7 +67,24 @@ import { useChannel } from '@/hooks/useChannel'
       // 1.通过id获取数据
       async function getArticleDetail() {
         const res = await getArticleById(articleId)
-        form.setFieldsValue(res.data)
+        const data = res.data
+        const { cover } = data
+        // form.setFieldsValue(res.data)
+        // 无法回填封面图片？
+        // 数据结构问题 set方法 -> { type: 3 }  res.data -> { cover: { type: 3}}
+
+        form.setFieldsValue({
+          ...data,
+          type: cover.type
+        })
+
+        // 回填图片列表
+        setImageType(cover.type)
+        // 显示图片({url:url})
+        setImageList(cover.images.map(url => {
+          return { url }
+        }))
+
       }
       getArticleDetail()
       // 2.调用实例方法 完成回填
@@ -128,6 +145,7 @@ import { useChannel } from '@/hooks/useChannel'
                   name='image'
                   onChange={onChange}
                   maxCount={imageType}
+                  fileList={imageList}
                 >
                   <div style={{ marginTop: 8 }}>
                     <PlusOutlined />
