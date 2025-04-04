@@ -11,7 +11,7 @@ import {
     message
   } from 'antd'
   import { PlusOutlined } from '@ant-design/icons'
-  import { Link, useSearchParams } from 'react-router-dom'
+  import { Link, useNavigate, useSearchParams } from 'react-router-dom'
   import './index.scss'
 
   import ReactQuill from 'react-quill'
@@ -24,11 +24,12 @@ import { useChannel } from '@/hooks/useChannel'
   const { Option } = Select
   
   const Publish = () => {
+    const navigate = useNavigate()
     // 获取频道
     const {channelList } = useChannel()
 
     // 提交表单
-    const onFinish = (formValue) => {
+    const onFinish = async (formValue) => {
       // 校验封面类型imageType是否和实际图片列表imageList数量相等
       if(imageList.length !== imageType) return message.warning('图片数量不匹配')
       const { title, content, channel_id } = formValue
@@ -51,11 +52,20 @@ import { useChannel } from '@/hooks/useChannel'
       }
       // 2.调用接口提交
       // 处理调用不同接口 新增 - 新增接口 编辑状态 - 编辑接口
-      if(articleId) {
-        // 更新接口
-        updateArticleAPI({...reqData, id: articleId})
-      } else {
-        createArticleAPI(reqData)
+      try {
+        if (articleId) {
+          // 编辑文章
+          await updateArticleAPI({ ...reqData, id: articleId });
+          message.success("编辑成功");
+        } else {
+          // 新增文章
+          await createArticleAPI(reqData);
+          message.success("发布成功");
+        }
+        navigate('/article')
+      } catch (error) {
+        message.error("操作失败，请稍后重试");
+        console.error("API error:", error);
       }
     }
 
@@ -183,7 +193,7 @@ import { useChannel } from '@/hooks/useChannel'
             <Form.Item wrapperCol={{ offset: 4 }}>
               <Space>
                 <Button size="large" type="primary" htmlType="submit">
-                  发布文章
+                  {`${articleId ? "编辑" : "发布"}文章`}
                 </Button>
               </Space>
             </Form.Item>
